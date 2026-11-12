@@ -1,36 +1,32 @@
 <!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小北百貨 AI 導覽</title><style>
 :root{--red:#ff514d;--ink:#111;--cream:#fff8ef;--yellow:#ffe55a;--green:#046865}*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:700 16px system-ui,'Noto Sans TC',sans-serif}button,input{font:inherit}button{cursor:pointer}.page{max-width:1100px;margin:auto;padding:35px 20px}.view[hidden]{display:none}.view#life .shelf{display:none}.hero,.card{border:2px solid var(--ink);background:#fff;padding:28px;margin-bottom:24px;box-shadow:7px 7px #111}.hero{background:var(--red)}h1{font-size:clamp(34px,6vw,62px);margin:8px 0}h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.choice,.zone{border:2px solid var(--ink);background:var(--cream);border-radius:22px;padding:20px;font-weight:900;font-size:20px;text-align:left}.choice:hover,.zone:hover,.zone.active{background:var(--yellow)}.step{display:none}.step.show{display:block;animation:in .3s}.recommend{margin-top:18px;padding:20px;background:#e9fbf1;border-left:10px solid var(--green)}.map{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}.zones{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.zone{min-height:72px;padding:8px;text-align:center;font-size:13px;border-radius:14px}.search{width:100%;padding:14px;border:2px solid var(--ink);border-radius:14px}.detail{border:2px solid var(--ink);padding:20px;background:#fff;min-height:350px}.backbtn{border:2px solid var(--ink);border-radius:999px;background:var(--yellow);padding:8px 14px;margin-bottom:14px;font-weight:900}.backbtn:hover{background:var(--red);color:#fff}.product{padding:12px 0;border-bottom:1px solid #ddd;cursor:pointer}.shelf{margin-top:18px;padding:14px;background:#eee;border:2px solid var(--ink)}.shelf-frame{position:relative;margin-top:10px;padding:8px 18px 1px;background:#dfe5e2;border:4px solid #69736f;border-top:0}.shelf-side{position:absolute;top:0;bottom:0;width:12px;background:#69736f;border:2px solid var(--ink);border-top:0}.shelf-side.left{left:0}.shelf-side.right{right:0}.shelf-level{display:inline-block;min-width:42px;color:#69736f;font-size:11px;margin-right:8px}.row{height:52px;border:4px solid #69736f;border-top:0;margin:0 0 10px;padding:7px;background:#fff}.mark{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;background:var(--red);color:#fff;border:2px solid var(--ink);padding:3px;font-size:20px;line-height:1}.recommend-products{margin:8px 0 0;padding-left:24px}.alias-hit{padding:10px;background:#fff0b3;border:2px solid var(--ink);margin:0 0 12px}.recommend-products li{margin:5px 0}#gate{position:fixed;z-index:9;inset:0;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,var(--red) 0 58%,var(--yellow) 58%)}#gate.hide{display:none}.gatecard{width:min(680px,100%);padding:50px;background:var(--cream);border:2px solid var(--ink);box-shadow:12px 12px #111;text-align:center}.gatebtn{width:46%;min-height:130px;margin:1%;border:2px solid #111;border-radius:28px;background:#fff;font-weight:900;font-size:22px}.gatebtn:hover{background:var(--yellow)}.gatebtn.mapbtn{background:#111;color:#fff}@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1}}@media(max-width:650px){.grid,.map{grid-template-columns:1fr}.zones{grid-template-columns:repeat(4,1fr)}.gatecard{padding:28px}.gatebtn{width:100%;margin:7px 0}}
-</style><style>.topnav{position:sticky;top:0;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px max(20px,calc((100vw - 1060px)/2));background:var(--ink);box-shadow:0 3px #111}.topnav[hidden]{display:none}.brand{color:#fff;font-size:18px}.navlinks{display:flex;gap:8px}.navbtn{border:2px solid #fff;border-radius:999px;background:transparent;color:#fff;padding:8px 15px;font-weight:900}.navbtn:hover,.navbtn.active{background:var(--yellow);color:var(--ink)}.storemap{display:grid;grid-template-rows:28px minmax(0,1fr) 72px 28px minmax(0,1fr);min-height:600px;padding:12px;background:#f5f0e8;border:2px solid var(--ink)}.storemap .maprow{min-height:0;align-items:stretch}.storemap .zone{height:100%;min-width:0;font-size:12px;line-height:1.35;writing-mode:horizontal-tb;white-space:normal;word-break:keep-all;overflow-wrap:anywhere}.maprow{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:6px}.maprow.back{grid-template-columns:repeat(10,minmax(0,1fr))}.aislelabel{text-align:center;margin:7px 0;font-size:13px}.corridor{display:flex;align-items:center;justify-content:center;text-align:center;margin:12px -12px;padding:0 18px;background:var(--yellow);border-block:2px dashed var(--ink);font-size:13px;line-height:1}@media(max-width:650px){.topnav{align-items:flex-start;padding:10px 14px}.brand{display:none}.navlinks{width:100%}.navbtn{flex:1;padding:8px 5px;font-size:14px}.maprow{grid-template-columns:repeat(11,minmax(96px,1fr));overflow-x:auto}.maprow.back{grid-template-columns:repeat(10,minmax(96px,1fr));overflow-x:auto}}</style><style>.shelf-frame{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:10px;margin-top:10px;padding:10px;background:#dfe5e2;border:4px solid #69736f}.shelf-bay{min-width:0;padding:0 8px;background:#fff;border:4px solid #69736f}.shelf-bay-title{text-align:center;padding:6px 2px;font-size:12px;background:var(--yellow);border-bottom:2px solid var(--ink)}.shelf-aisle{display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-size:11px;color:#69736f}.shelf-depths{display:grid;grid-template-columns:1fr;gap:6px}.shelf-depth{min-width:0;border:2px solid #69736f;background:#f7f7f7}.shelf-depth-title{text-align:center;padding:4px 1px;background:#e8edf0;font-size:11px;border-bottom:2px solid #69736f}.shelf-depth .row{height:58px;margin:0;padding:8px 6px;display:flex;align-items:center;justify-content:center}.shelf-depth .mark{width:32px;height:32px;font-size:18px}</style><body><div id="gate"><div class="gatecard"><h1>今天想解決什麼？</h1><p>選擇一個入口開始導覽</p><button class="gatebtn" onclick="openView('life')">生活解決方案</button><button class="gatebtn mapbtn" onclick="openView('map')">商品地圖</button></div></div><nav id="topnav" class="topnav" hidden aria-label="主要導覽"><span class="brand">小北 AI 導覽</span><div class="navlinks"><button class="navbtn" data-view="life" onclick="openView('life')">生活解決方案</button><button class="navbtn" data-view="map" onclick="openView('map')">商品地圖</button></div></nav><script src="商品資料.js"></script><main class="page"><section id="life" class="view" hidden><div class="hero"><h1>生活解決方案</h1><p>每一步只會顯示下一個需要選的選項。</p></div><div class="card"><div id="s1" class="step show"><h2>① 你遇到什麼問題？</h2><div class="grid" id="sc"></div></div><div id="s2" class="step"><h2 id="q">② 請選擇情況</h2><div class="grid" id="ans"></div></div><div id="s3" class="step"><div class="recommend"><h2>推薦解決方法</h2><h3 id="rt"></h3><div id="rb"></div></div></div></div></section><section id="map" class="view" hidden><div class="hero"><h1>商品地圖</h1><p>搜尋商品或點選 21 個區域。</p></div><div class="card map"><div><input id="search" class="search" oninput="findProduct()" placeholder="搜尋商品、五金俗稱、台語別名…"><h2>21 區地圖</h2><div class="storemap"><p class="aislelabel">後排（12–21 區）</p><div id="backZones" class="maprow back"></div><div class="corridor">主要走道</div><p class="aislelabel">前排（1–11 區）</p><div id="frontZones" class="maprow front"></div></div></div><div id="detail" class="detail"><h2>商品資訊</h2><p>請選擇區域或搜尋商品。</p></div></div></section></main><script>
+</style><style>.topnav{position:sticky;top:0;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px max(20px,calc((100vw - 1060px)/2));background:var(--ink);box-shadow:0 3px #111}.topnav[hidden]{display:none}.brand{color:#fff;font-size:18px}.navlinks{display:flex;gap:8px}.navbtn{border:2px solid #fff;border-radius:999px;background:transparent;color:#fff;padding:8px 15px;font-weight:900}.navbtn:hover,.navbtn.active{background:var(--yellow);color:var(--ink)}.storemap{display:grid;grid-template-rows:28px minmax(0,1fr) 72px 28px minmax(0,1fr);min-height:600px;padding:12px;background:#f5f0e8;border:2px solid var(--ink)}.storemap .maprow{min-height:0;align-items:stretch}.storemap .zone{height:100%;min-width:0;font-size:12px;line-height:1.35;writing-mode:horizontal-tb;white-space:normal;word-break:keep-all;overflow-wrap:anywhere}.maprow{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:6px}.maprow.back{grid-template-columns:repeat(10,minmax(0,1fr))}.aislelabel{text-align:center;margin:7px 0;font-size:13px}.corridor{display:flex;align-items:center;justify-content:center;text-align:center;margin:12px -12px;padding:0 18px;background:var(--yellow);border-block:2px dashed var(--ink);font-size:13px;line-height:1}@media(max-width:650px){.topnav{align-items:flex-start;padding:10px 14px}.brand{display:none}.navlinks{width:100%}.navbtn{flex:1;padding:8px 5px;font-size:14px}.maprow{grid-template-columns:repeat(11,minmax(96px,1fr));overflow-x:auto}.maprow.back{grid-template-columns:repeat(10,minmax(96px,1fr));overflow-x:auto}}</style><style>.shelf-frame{display:grid;grid-template-columns:minmax(0,1fr) 42px minmax(0,1fr);gap:10px;margin-top:10px;padding:10px;background:#dfe5e2;border:4px solid #69736f}.shelf-bay{min-width:0;padding:0 8px;background:#fff;border:4px solid #69736f}.shelf-bay-title{text-align:center;padding:6px 2px;font-size:12px;background:var(--yellow);border-bottom:2px solid var(--ink)}.shelf-aisle{display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-size:11px;color:#69736f}.shelf-depths{display:grid;grid-template-columns:1fr;gap:6px}.shelf-depth{min-width:0;border:2px solid #69736f;background:#f7f7f7}.shelf-depth-title{text-align:center;padding:4px 1px;background:#e8edf0;font-size:11px;border-bottom:2px solid #69736f}.shelf-depth .row{height:58px;margin:0;padding:8px 6px;display:flex;align-items:center;justify-content:center}.shelf-depth .mark{width:32px;height:32px;font-size:18px}</style><body><div id="gate"><div class="gatecard"><h1>今天想解決什麼？</h1><p>選擇一個入口開始導覽</p><button class="gatebtn" onclick="openView('life')">生活解決方案</button><button class="gatebtn mapbtn" onclick="openView('map')">商品地圖</button></div></div><nav id="topnav" class="topnav" hidden aria-label="主要導覽"><span class="brand">小北 AI 導覽</span><div class="navlinks"><button class="navbtn" data-view="life" onclick="openView('life')">生活解決方案</button><button class="navbtn" data-view="map" onclick="openView('map')">商品地圖</button></div></nav><script src="商品資料.js"></script><main class="page"><section id="life" class="view" hidden><div class="hero"><h1>生活解決方案</h1><p>涵蓋衛浴與清潔、洗曬與收納、工具與防護等類別，依情境推薦用品；像租屋不能釘牆，可選無痕掛勾，並備妥美工刀和捲尺。</p></div><div class="card"><div id="s1" class="step show"><h2>① 你遇到什麼問題？</h2><div class="grid" id="sc"></div></div><div id="s2" class="step"><h2 id="q">② 請選擇情況</h2><div class="grid" id="ans"></div></div><div id="s3" class="step"><div class="recommend"><h2>推薦解決方法</h2><h3 id="rt"></h3><div id="rb"></div></div></div></div></section><section id="map" class="view" hidden><div class="hero"><h1>商品地圖</h1><p>搜尋商品或點選 21 個區域。</p></div><div class="card map"><div><input id="search" class="search" oninput="findProduct()" placeholder="搜尋商品、五金俗稱、台語別名…"><h2>21 區地圖</h2><div class="storemap"><p class="aislelabel">後排（12–21 區）</p><div id="backZones" class="maprow back"></div><div class="corridor">主要走道</div><p class="aislelabel">前排（1–11 區）</p><div id="frontZones" class="maprow front"></div></div></div><div id="detail" class="detail"><h2>商品資訊</h2><p>請選擇區域或搜尋商品。</p></div></div></section></main><script>
 const flow={浴室清潔:{q:'浴室主要想清潔什麼？',a:['水垢','皂垢','霉斑'],r:['確認材質後局部測試清潔劑。','依污垢選擇合適清潔用品。','完成後沖洗並保持通風。'],i:'浴室清潔劑、清潔刷、手套'},居家修繕:{q:'你需要處理哪種問題？',a:['鎖螺絲','黏貼固定','水龍頭漏水'],r:['先確認尺寸、材質與施工位置。','使用合適工具，避免高風險施工。','問題持續時請找專業人員。'],i:'螺絲起子、活動扳手、防水膠帶'},租屋清潔:{q:'最需要清潔哪個區域？',a:['廚房油污','地板','全屋'],r:['先清除雜物，從高處往低處清潔。','依材質使用中性用品。','清潔後保持通風。'],i:'去油清潔劑、拖把、海綿'},防災備品:{q:'目前最擔心哪種狀況？',a:['停電','停水','颱風'],r:['先盤點家中現有用品。','優先準備照明、飲水與基礎防護。','依官方公告行動。'],i:'手電筒、乾電池、防災包'}};let current='';function openView(id){gate.className='hide';topnav.hidden=false;document.getElementById('voiceDock').hidden=id!=='map';document.getElementById('voiceStatus').hidden=id!=='map';document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!==id);document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.view===id));window.scrollTo({top:0,behavior:'smooth'})}function choose(n){current=n;ans.innerHTML='';q.textContent='② '+flow[n].q;flow[n].a.forEach(a=>{let b=document.createElement('button');b.className='choice';b.textContent=a;b.onclick=()=>result(a);ans.append(b)});s2.className='step show';s2.scrollIntoView({behavior:'smooth'})}function getRecommendations(topic,answer){const tags={浴室清潔:['浴室','浴室除霉'],居家修繕:['居家修繕','家具組裝'],租屋清潔:['租屋清潔','大掃除'],防災備品:['停電應急','防颱與緊急備用品','照明與電力設備']}[topic]||[];const rank={必要:0,搭配:1,延伸:2};return p.filter(x=>tags.some(t=>x[5].includes(t)||x[6].includes(t))||x[6].includes(answer)).sort((a,b)=>(rank[a[7]]??9)-(rank[b[7]]??9)).slice(0,8)}function result(a){let f=flow[current],recommended=getRecommendations(current,a);rt.textContent=current+'｜'+a;rb.innerHTML='<ol>'+f.r.map(x=>'<li>'+x+'</li>').join('')+'</ol><h4>推薦商品名單</h4><ul class="recommend-products">'+(recommended.length?recommended.map(x=>'<li>'+x[0]+'（'+x[8]+'｜'+x[2]+'）</li>').join(''):f.i.split('、').map(x=>'<li>'+x+'</li>').join(''))+'</ul>';s3.className='step show';s3.scrollIntoView({behavior:'smooth'})}Object.keys(flow).forEach(n=>{let b=document.createElement('button');b.className='choice';b.textContent=n;b.onclick=()=>choose(n);sc.append(b)});const zn=['食品飲料','個人清潔','美髮美妝','居家清潔','文具用品','廚房用品','餐具容器','烹飪鍋具','茶具保溫','衛浴設備','收納晾曬','家具家飾','地墊用品','五金修繕','電器家電','女性衛生','服飾內著','鞋類用品','汽車用品','宗教寵物','玩具用品'],p=PRODUCTS_30K;zn.forEach((n,i)=>{let b=document.createElement('button');b.className='zone';b.dataset.zone=i+1;b.textContent=(i+1)+'區 '+n;b.onclick=()=>zone(i+1);(i<11?frontZones:backZones).append(b)});function highlightZone(n){document.querySelectorAll('.zone').forEach(b=>b.classList.toggle('active',Number(b.dataset.zone)===Number(n)))}function zone(n){highlightZone(n);let x=p.filter(a=>a[1]==n);detail.innerHTML='<button class="backbtn" onclick="resetDetail()">← 返回地圖</button><h2>'+n+'區｜'+zn[n-1]+'</h2>'+(x.length?x.map(a=>'<div class="product" onclick="prod(\''+a[0]+'\')">'+a[0]+'（點選層架）</div>').join(''):'<p>此區暫無模擬商品。</p>')}function resetDetail(){detail.innerHTML='<h2>商品資訊</h2><p>請選擇區域或搜尋商品。</p>'}function findProduct(){let q=search.value.trim();if(!q){resetDetail();return}let alias=HARDWARE_ALIASES.find(a=>a[0].includes(q)||q.includes(a[0])),terms=[q].concat(alias?[alias[2]]:[]),x=p.find(a=>terms.some(t=>[a[0],a[3],a[4],a[5],a[6],a[8]].some(v=>String(v).includes(t))));if(x){prod(x[0]);if(alias)detail.innerHTML='<p class="alias-hit">俗稱「'+alias[0]+'」對應：'+alias[2]+'</p>'+detail.innerHTML}else{highlightZone(0);detail.innerHTML='<h2>找不到商品</h2><p>請改用商品名稱、商品 ID、分類、生活情境、關鍵字或五金俗稱搜尋。</p>'}}function shelfLevel(v){let n=String(v).match(/第(\d+)層/);if(n)return Math.min(5,Math.max(1,Number(n[1])));return ({上層:1,中層:3,下層:5}[v]||3)}function shelfDepth(v){let text=String(v||'');return text.includes('前')?'前':text.includes('後')?'後':'中'}function shelfBay(title,name,position,show){let depth=shelfDepth(position);return '<div class="shelf-bay"><div class="shelf-bay-title">'+title+'</div><div class="shelf-depths">'+['前','中','後'].map(d=>'<div class="shelf-depth"><div class="shelf-depth-title">'+d+'</div><div class="row">'+(show&&depth===d?'<span class="mark" title="'+name+'" aria-label="'+name+'">📦</span>':'')+'</div></div>').join('')+'</div></div>'}function prod(n){let x=p.find(a=>a[0]==n);if(!x)return;highlightZone(x[1]);detail.innerHTML='<button class="backbtn" onclick="zone('+x[1]+')">← 返回'+x[1]+'區商品</button><h2>'+x[0]+'</h2><p>商品ID：'+x[3]+'</p><p>位置：'+x[1]+'區｜'+x[8]+'｜'+x[9]+'｜'+x[10]+'｜'+x[2]+'</p><p>售價：NT$'+x[11]+'｜庫存：'+x[12]+'</p><div class="shelf"><b>層架模擬圖</b><div class="shelf-frame">'+shelfBay('左側層架',x[0],x[9],String(x[9]).startsWith('左'))+'<div class="shelf-aisle">中間走道</div>'+shelfBay('右側層架',x[0],x[9],String(x[9]).startsWith('右'))+'</div></div>'}
 if(location.hash==='#map'){window.addEventListener('DOMContentLoaded',function(){openView('map');},{once:true});}</script><style>.guide-meta{display:grid;gap:12px;margin-top:14px}.guide-box{padding:13px 15px;border:2px solid var(--ink);background:#fff}.guide-box h4{margin:0 0 7px}.warning{background:#fff0b3;border-left:8px solid var(--yellow)}.professional{background:#ffe7e4;border-left:8px solid var(--red)}.care{background:#e9fbf1;border-left:8px solid var(--green)}.source-note{font-size:13px;color:#444;margin-top:16px}.source-note a{color:inherit}</style><script src="life-guides.js"></script><style>
-.voice-dock[hidden],.voice-status[hidden]{display:none}.voice-dock{position:fixed;right:20px;bottom:20px;z-index:20;width:min(300px,calc(100vw - 28px));display:grid;grid-template-columns:1fr auto auto;grid-template-rows:46px 24px auto;align-items:center;gap:7px 9px;padding:9px 11px;background:var(--cream);border:2px solid var(--ink);border-radius:20px;box-shadow:5px 5px var(--ink)}
+.voice-dock[hidden],.voice-status[hidden]{display:none}.voice-dock{position:fixed;right:20px;bottom:20px;z-index:20;width:min(300px,calc(100vw - 28px));display:grid;grid-template-columns:1fr auto;grid-template-rows:46px 24px auto;align-items:center;gap:7px 9px;padding:9px 11px;background:var(--cream);border:2px solid var(--ink);border-radius:20px;box-shadow:5px 5px var(--ink)}
 .voice-auto{grid-column:1;grid-row:1;padding-left:4px;color:var(--ink);font-size:12px;font-weight:900;white-space:nowrap}
-.voice-input,.voice-speak{width:46px;height:46px;border:2px solid var(--ink);border-radius:50%;font-size:20px;font-weight:900}
-.voice-input{grid-column:2;grid-row:1;background:var(--red);color:#fff;box-shadow:0 0 0 4px #ffe4c7}
-.voice-speak{grid-column:3;grid-row:1;background:var(--yellow);color:var(--ink)}
-.voice-input:hover,.voice-input.recording{background:var(--yellow);color:var(--ink)}.voice-speak:hover{background:var(--red);color:#fff}.voice-speak:disabled{opacity:.45;cursor:not-allowed}
+.voice-input{grid-column:2;grid-row:1;width:46px;height:46px;border:2px solid var(--ink);border-radius:50%;font-size:20px;font-weight:900;background:var(--red);color:#fff;box-shadow:0 0 0 4px #ffe4c7}
+.voice-input:hover,.voice-input.recording{background:var(--yellow);color:var(--ink)}
 .voice-meter{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;font-size:11px;font-weight:900}.mic-wave{height:24px;display:flex;align-items:center;justify-content:center;gap:3px;overflow:hidden;padding:2px 6px;border-radius:8px;background:#f0e6dc}.mic-wave i{width:3px;height:2px;border-radius:3px;background:#b7a99d;transition:height .06s,background .06s}.mic-meter.active .mic-wave{background:#fff0e6}.mic-meter.active .mic-wave i{background:var(--red)}.mic-meter output{min-width:34px;text-align:right;font-variant-numeric:tabular-nums}
-.voice-wave{position:absolute;right:8px;bottom:calc(100% + 9px);display:none;align-items:center;justify-content:center;gap:4px;height:38px;min-width:72px;padding:5px 12px;border:2px solid var(--ink);border-radius:999px;background:#fff;box-shadow:3px 3px var(--ink)}
-.voice-dock.speaking .voice-wave{display:flex}.voice-wave i{display:block;width:4px;height:8px;border-radius:9px;background:var(--red);transform-origin:center;animation:voice-wave .72s ease-in-out infinite alternate}.voice-wave i:nth-child(2n){animation-duration:.53s}.voice-wave i:nth-child(3n){animation-duration:.88s}.voice-wave i:nth-child(4n){animation-delay:.2s}@keyframes voice-wave{from{height:5px}to{height:25px}}
 .voice-status{grid-column:1/-1;grid-row:3;position:static;max-width:none;padding:5px 8px;border:1px solid var(--ink);border-radius:8px;background:#fff;box-shadow:none;font-size:11px;font-weight:800;line-height:1.35}
 .voice-input:disabled{opacity:.65;cursor:wait}
 @media(max-width:650px){.voice-dock{right:14px;bottom:max(14px,env(safe-area-inset-bottom))}}
 </style>
-<div id="voiceDock" class="voice-dock" aria-label="語音輸入與輸出" hidden><span class="voice-auto">國語／台語自動</span><button id="voiceInput" class="voice-input" type="button" aria-label="語音輸入" title="開始語音輸入">🎙</button><button id="voiceSpeak" class="voice-speak" type="button" aria-label="朗讀搜尋結果" title="朗讀搜尋結果" disabled>🔊</button><div id="micMeter" class="voice-meter" aria-label="即時麥克風音量"><span>收音音量</span><div id="micWave" class="mic-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><output id="micLevelValue">--%</output></div><div id="voiceWave" class="voice-wave" aria-label="語音播放中"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-<div id="voiceStatus" class="voice-status" role="status" aria-live="polite" hidden>地圖可用；語音辨識需先連接 API。</div></div>
+<div id="voiceDock" class="voice-dock" aria-label="語音輸入" hidden><span class="voice-auto">AI 國語／台語辨識</span><button id="voiceInput" class="voice-input" type="button" aria-label="開始語音輸入" title="開始語音輸入">🎙</button><div id="micMeter" class="voice-meter" aria-label="即時麥克風音量"><span>收音音量</span><div id="micWave" class="mic-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><output id="micLevelValue">--%</output></div><div id="voiceStatus" class="voice-status" role="status" aria-live="polite" hidden>正在確認本機語音服務…</div></div>
 <script src="voice-config.js"></script><script>
 (function(){
   const button=document.getElementById('voiceInput');
-  const speakButton=document.getElementById('voiceSpeak');
   const dock=document.getElementById('voiceDock');
   const status=document.getElementById('voiceStatus');
   const micMeter=document.getElementById('micMeter');
   const micLevelValue=document.getElementById('micLevelValue');
   const micBars=Array.from(document.querySelectorAll('#micWave i'));
   const search=document.getElementById('search');
+  const detail=document.getElementById('detail');
   const voiceApiBase=String(window.XIAOBEI_VOICE_API_URL||'').replace(/\/+$/,'');
-  let recorder=null,stream=null,chunks=[],lastReply='',lastLanguage='zh',currentUtterance=null,taigiVoiceFallback=false;
+  let recorder=null,stream=null,chunks=[];
   let audioContext=null,micAnalyser=null,micSource=null,micSamples=null,micFrame=0;
+
   function updateMicMeter(){
     if(!micAnalyser||!recorder||recorder.state!=='recording')return;
     micAnalyser.getByteTimeDomainData(micSamples);
@@ -50,96 +46,101 @@ if(location.hash==='#map'){window.addEventListener('DOMContentLoaded',function()
     const AudioContextClass=window.AudioContext||window.webkitAudioContext;
     if(!AudioContextClass)return;
     try{
-      audioContext=new AudioContextClass();
-      micAnalyser=audioContext.createAnalyser();
-      micAnalyser.fftSize=512;
-      micSamples=new Uint8Array(micAnalyser.fftSize);
-      micSource=audioContext.createMediaStreamSource(mediaStream);
-      micSource.connect(micAnalyser);
+      audioContext=new AudioContextClass();micAnalyser=audioContext.createAnalyser();micAnalyser.fftSize=512;
+      micSamples=new Uint8Array(micAnalyser.fftSize);micSource=audioContext.createMediaStreamSource(mediaStream);micSource.connect(micAnalyser);
       if(audioContext.state==='suspended')audioContext.resume().catch(function(){});
-      micMeter.classList.add('active');
-      micFrame=requestAnimationFrame(updateMicMeter);
+      micMeter.classList.add('active');micFrame=requestAnimationFrame(updateMicMeter);
     }catch(error){stopMicMeter();}
   }
   function stopMicMeter(){
-    if(micFrame)cancelAnimationFrame(micFrame);
-    micFrame=0;micMeter.classList.remove('active');micLevelValue.textContent='--%';
+    if(micFrame)cancelAnimationFrame(micFrame);micFrame=0;micMeter.classList.remove('active');micLevelValue.textContent='--%';
     micBars.forEach(function(bar){bar.style.height='2px';});
-    if(micSource){micSource.disconnect();micSource=null;}
-    micAnalyser=null;micSamples=null;
+    if(micSource){micSource.disconnect();micSource=null;}micAnalyser=null;micSamples=null;
     if(audioContext){audioContext.close().catch(function(){});audioContext=null;}
   }
-  function buildReply(query){
-    const detail=document.getElementById('detail');
-    const heading=detail.querySelector('h2');
-    if(!heading||heading.textContent==='商品資訊')return '收到搜尋內容：'+query+'。請查看畫面上的商品結果。';
-    if(heading.textContent==='找不到商品')return '目前找不到「'+query+'」，請換個商品名稱或俗稱再試一次。';
-    const position=Array.from(detail.querySelectorAll('p')).map(function(p){return p.textContent.trim();}).find(function(text){return text.startsWith('位置：');});
-    const price=Array.from(detail.querySelectorAll('p')).map(function(p){return p.textContent.trim();}).find(function(text){return text.startsWith('售價：');});
-    return '找到'+heading.textContent+'。'+(position?position.replace(/^位置：/,'')+'。':'')+(price?price+'。':'');
+  function normalizeVoiceQuery(value){
+    let query=String(value||'').toLocaleLowerCase().replace(/[，。？！?、,.！：；「」『』\s]/g,'');
+    const remove=['請問有賣','我想要找','我想要買','我想找','我想買','我要找','我要買','我欲揣','我要揣','幫我找','幫我查','幫我搜尋','查一下','麻煩找','不好意思','請問','想請問','我想知道','有沒有','哪裡有','哪裡買','放在哪裡','放哪裡','放在什麼地方','在哪一個區','在哪個區','在哪一區','在哪裡','在哪邊','在哪區','在幾區','是哪一區','哪一個位置','哪個位置','哪一區','哪個區','什麼區','第幾區','佇佗位','佇哪位','佇哪一區','佇哪區','底佗位','咧佗位','放佗位','佇佗','佗位','幾區','哪邊','哪裡','我欲','欲揣','要找','找一下','位置','區域','在哪','有嗎','嗎','呢','啊','的'];
+    remove.sort(function(a,b){return b.length-a.length;});
+    remove.forEach(function(part){query=query.split(part).join('');});
+    return query;
   }
-  function speakReply(text,detectedLanguage){
-    if(!text||!window.speechSynthesis||!window.SpeechSynthesisUtterance){status.textContent='這個瀏覽器沒有可用的語音輸出功能。';return;}
-    window.speechSynthesis.cancel();
-    const lang=detectedLanguage==='nan'?'nan-CN':'zh-TW';
-    const voices=window.speechSynthesis.getVoices();
-    let voice=voices.find(function(v){return detectedLanguage==='nan'?/^nan[-_]/i.test(v.lang):/^zh[-_]tw/i.test(v.lang);});
-    taigiVoiceFallback=detectedLanguage==='nan'&&!voice;
-    if(taigiVoiceFallback)voice=voices.find(function(v){return /^zh[-_]tw/i.test(v.lang);})||null;
-    const utterance=new SpeechSynthesisUtterance(text);
-    utterance.lang=voice?voice.lang:lang;
-    if(voice)utterance.voice=voice;
-    utterance.rate=0.96;
-    currentUtterance=utterance;
-    utterance.onstart=function(){dock.classList.add('speaking');speakButton.textContent='■';speakButton.title='停止語音';status.textContent=taigiVoiceFallback?'此裝置沒有台語語音，暫以台灣國語播報。':'正在語音播報…';};
-    utterance.onend=function(){dock.classList.remove('speaking');speakButton.textContent='🔊';speakButton.title='重播搜尋結果';currentUtterance=null;};
-    utterance.onerror=function(){dock.classList.remove('speaking');speakButton.textContent='🔊';speakButton.title='重播搜尋結果';currentUtterance=null;status.textContent='語音播放失敗，請再按喇叭重播。';};
-    window.speechSynthesis.speak(utterance);
+  function voiceMatches(transcript){
+    const raw=String(transcript||'').toLocaleLowerCase().replace(/[，。？！?、,.！：；「」『』\s]/g,'');
+    const aliases=HARDWARE_ALIASES.filter(function(a){return raw.includes(String(a[0]).toLocaleLowerCase());});
+    const fields=function(product){return [product[0],product[3],product[4],product[6]].map(function(v){return String(v||'').toLocaleLowerCase();});};
+    const addMatchingProducts=function(term,into){
+      const key=String(term||'').toLocaleLowerCase();if(key.length<2)return;
+      p.forEach(function(product){if(fields(product).some(function(field){return field.includes(key);}))into.add(product);});
+    };
+    const aliasHits=new Set();
+    aliases.forEach(function(alias){addMatchingProducts(alias[2],aliasHits);});
+    if(aliasHits.size)return Array.from(aliasHits);
+
+    const recognizedTerms=new Set();
+    p.forEach(function(product){
+      const candidates=[product[0],product[3],product[4]].concat(String(product[6]||'').split(/[、,，]/));
+      candidates.forEach(function(value){const term=String(value||'').trim();if(term.length>=2&&raw.includes(term.toLocaleLowerCase()))recognizedTerms.add(term);});
+    });
+    const directHits=new Set();
+    recognizedTerms.forEach(function(term){addMatchingProducts(term,directHits);});
+    if(directHits.size)return Array.from(directHits);
+
+    const query=normalizeVoiceQuery(transcript);
+    const queryHits=new Set();addMatchingProducts(query,queryHits);
+    return Array.from(queryHits);
   }
-  speakButton.addEventListener('click',function(){if(window.speechSynthesis&&window.speechSynthesis.speaking){window.speechSynthesis.cancel();dock.classList.remove('speaking');speakButton.textContent='🔊';speakButton.title='重播搜尋結果';currentUtterance=null;}else if(lastReply)speakReply(lastReply,lastLanguage);});
+  function renderVoiceResults(transcript){
+    const matches=voiceMatches(transcript);
+    const areas=Array.from(new Set(matches.map(function(product){return Number(product[1]);}))).filter(function(n){return n>=1&&n<=zn.length;}).sort(function(a,b){return a-b;});
+    document.querySelectorAll('.zone').forEach(function(zoneButton){zoneButton.classList.toggle('active',areas.includes(Number(zoneButton.dataset.zone)));});
+    detail.replaceChildren();
+    const heading=document.createElement('h2');heading.textContent=matches.length?'商品所在區域':'找不到商品';detail.appendChild(heading);
+    const spoken=document.createElement('p');spoken.textContent='辨識內容：'+transcript;detail.appendChild(spoken);
+    if(!areas.length){const help=document.createElement('p');help.textContent='請試著只說商品名稱，或改用商品地圖上的文字搜尋。';detail.appendChild(help);return;}
+    const intro=document.createElement('p');intro.textContent='商品可能在以下區域：';detail.appendChild(intro);
+    const list=document.createElement('ul');
+    areas.forEach(function(area){const item=document.createElement('li');item.textContent=area+'區｜'+zn[area-1];list.appendChild(item);});
+    detail.appendChild(list);
+  }
+  async function updateVoiceHealth(){
+    if(!voiceApiBase){button.disabled=true;status.textContent='本機語音請由 start_local_voice.command 啟動後使用。';return;}
+    try{
+      const response=await fetch(voiceApiBase+'/api/voice/health',{cache:'no-store'});
+      const data=await response.json();
+      if(data.model_loaded){button.disabled=false;status.textContent='本機國語／台語辨識已就緒。';}
+      else{button.disabled=true;status.textContent=data.detail?'模型載入失敗，請查看本機服務視窗。':'本機語音模型載入中，稍候會自動就緒…';window.setTimeout(updateVoiceHealth,5000);}
+    }catch(error){button.disabled=true;status.textContent='本機語音服務尚未啟動，請雙擊 start_local_voice.command。';}
+  }
   function finishWithTranscript(text,detectedLanguage){
     const transcript=String(text||'').trim();
     if(!transcript){status.textContent='沒有辨識到文字，請再說一次。';return;}
     if(document.getElementById('map').hidden)openView('map');
-    search.value=transcript;
-    findProduct();
+    search.value=transcript;renderVoiceResults(transcript);
     const names={zh:'國語',nan:'台語',hak:'客語',en:'英語'};const detected=names[detectedLanguage]||'自動辨識';
-    lastReply=buildReply(transcript);lastLanguage=detectedLanguage||'zh';speakButton.disabled=!lastReply;
-    status.textContent='已辨識'+detected+'並搜尋：「'+transcript+'」';
-    speakReply(lastReply,lastLanguage);
+    status.textContent='已辨識'+detected+'：「'+transcript+'」';
   }
   async function startRecording(){
-    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){status.textContent='此瀏覽器沒有可用的錄音功能。請用 Safari 或 Chrome 開啟 http://127.0.0.1:8000/，不要用 file:// 開啟。';return;}
+    if(!voiceApiBase){status.textContent='本機語音請由 start_local_voice.command 啟動後使用。';return;}
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){status.textContent='此瀏覽器沒有可用的錄音功能。請用 Safari 或 Chrome 開啟本機網站。';return;}
     try{
-      stream=await navigator.mediaDevices.getUserMedia({audio:true});
-      chunks=[];recorder=new MediaRecorder(stream);
+      stream=await navigator.mediaDevices.getUserMedia({audio:true});chunks=[];recorder=new MediaRecorder(stream);
       recorder.addEventListener('dataavailable',function(event){if(event.data&&event.data.size)chunks.push(event.data);});
       recorder.addEventListener('stop',async function(){
-        stopMicMeter();
-        const mime=recorder.mimeType||'audio/webm';
-        const extension=mime.indexOf('mp4')>=0?'m4a':'webm';
-        const form=new FormData();
-        form.append('audio',new Blob(chunks,{type:mime}),'voice.'+extension);
-        form.append('language','auto');
-        button.disabled=true;button.classList.remove('recording');button.textContent='🎙';
-        status.textContent='錄音完成，正在辨識…';
+        stopMicMeter();const mime=recorder.mimeType||'audio/webm';const extension=mime.indexOf('mp4')>=0?'m4a':'webm';
+        const form=new FormData();form.append('audio',new Blob(chunks,{type:mime}),'voice.'+extension);form.append('language','auto');
+        button.disabled=true;button.classList.remove('recording');button.textContent='🎙';status.textContent='正在本機辨識…';
         try{
-          if(!voiceApiBase){status.textContent='地圖已上線；語音辨識 API 尚未連接。';return;}
-          const response=await fetch(voiceApiBase+'/api/voice/transcribe',{method:'POST',body:form});
-          const data=await response.json();
-          if(!response.ok)throw new Error(data.detail||'transcription failed');
-          finishWithTranscript(data.transcript,data.detected_language);
-        }catch(error){status.textContent='語音辨識失敗：'+(error.message||'請確認本機語音服務正在執行。');}
-        finally{button.disabled=false;if(stream){stream.getTracks().forEach(function(track){track.stop();});stream=null;}}
+          const response=await fetch(voiceApiBase+'/api/voice/transcribe',{method:'POST',body:form});const data=await response.json();
+          if(!response.ok)throw new Error(data.detail||'語音辨識失敗');finishWithTranscript(data.transcript,data.detected_language);
+        }catch(error){status.textContent=error.message||'本機語音辨識失敗，請再試一次。';}
+        finally{if(stream){stream.getTracks().forEach(function(track){track.stop();});stream=null;}button.disabled=false;}
       },{once:true});
-      recorder.start();startMicMeter(stream);button.classList.add('recording');button.textContent='■';button.title='停止錄音並輸入';
-      status.textContent='正在錄音…說完後再按一次停止。';
-    }catch(error){const name=error&&error.name||'UnknownError';if(name==='NotAllowedError'||name==='PermissionDeniedError'){status.textContent='麥克風權限被瀏覽器或 macOS 封鎖。請允許此網站使用麥克風後重新整理。';}else if(name==='NotFoundError'||name==='DevicesNotFoundError'){status.textContent='找不到麥克風。請接上或選取可用的輸入裝置。';}else if(name==='NotReadableError'||name==='TrackStartError'){status.textContent='麥克風目前被其他程式占用。請關閉正在使用麥克風的程式後重試。';}else if(name==='SecurityError'){status.textContent='瀏覽器限制了麥克風。請用 http://127.0.0.1:8000/ 開啟，不要使用 file://。';}else{status.textContent='麥克風錯誤：'+name+(error&&error.message?'｜'+error.message:'');}}
+      recorder.start();startMicMeter(stream);button.classList.add('recording');button.textContent='■';button.title='停止錄音並搜尋';status.textContent='正在錄音…說完後再按一次停止。';
+    }catch(error){const name=error&&error.name||'UnknownError';if(name==='NotAllowedError'||name==='PermissionDeniedError'){status.textContent='麥克風權限被瀏覽器封鎖。請允許此網站使用麥克風後重新整理。';}else if(name==='NotFoundError'||name==='DevicesNotFoundError'){status.textContent='找不到麥克風，請接上或選取可用的輸入裝置。';}else if(name==='NotReadableError'||name==='TrackStartError'){status.textContent='麥克風目前被其他程式占用，請關閉後重試。';}else{status.textContent='麥克風錯誤：'+name+(error&&error.message?'｜'+error.message:'');}}
   }
-  button.addEventListener('click',function(){
-    if(recorder&&recorder.state==='recording'){recorder.stop();status.textContent='正在送出錄音…';return;}
-    startRecording();
-  });
+  button.addEventListener('click',function(){if(recorder&&recorder.state==='recording'){recorder.stop();status.textContent='正在送出錄音至本機…';return;}startRecording();});
+  updateVoiceHealth();
 })();
 </script>
 </body></html>

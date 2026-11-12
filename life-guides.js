@@ -14,7 +14,8 @@ function result(a){let g=guides[a],recommended=getRecommendations(current,a);rt.
 ['廚房清潔','搬家與租屋','設備異常'].forEach(n=>{let b=document.createElement('button');b.className='choice';b.textContent=n;b.onclick=()=>choose(n);sc.append(b)});
 
 /* 將推薦商品改為可快速掃讀的卡片，並帶入商品資料中的售價與庫存。 */
-function productCards(items,fallback){if(!items.length)return '<div class="product-fallback">'+fallback.split('、').map(x=>'<span>'+x+'</span>').join('')+'</div>';return '<div class="product-cards">'+items.map(x=>'<article class="product-card"><p class="product-card__location">'+x[1]+'區 · '+x[9]+'</p><h5>'+x[0]+'</h5><p class="product-card__type">'+x[8]+'</p><div class="product-card__bottom"><strong>NT$'+Number(x[11]).toLocaleString('zh-TW')+'</strong><span>庫存 '+x[12]+'</span></div></article>').join('')+'</div>'}
+function productMatchesTerm(item,term){return [item[0],item[4],item[6]].some(value=>String(value||'').includes(term))}
+function productCards(items,fallback){const labels=fallback.split('、'),unlisted=labels.filter(term=>!items.some(item=>productMatchesTerm(item,term))),unlistedHtml=unlisted.length?'<p class="product-fallback-note">其他建議用品（目前沒有對應的店內商品資料）</p><div class="product-fallback">'+unlisted.map(x=>'<span>'+x+'</span>').join('')+'</div>':'';if(!items.length)return '<div class="product-fallback">'+labels.map(x=>'<span>'+x+'</span>').join('')+'</div>';return '<div class="product-cards">'+items.map(x=>'<article class="product-card"><p class="product-card__location">'+x[1]+'區 · '+x[9]+'</p><h5>'+x[0]+'</h5><p class="product-card__type">'+x[8]+'</p><div class="product-card__bottom"><strong>'+(x[11]==null?'價格待補':'NT$'+Number(x[11]).toLocaleString('zh-TW'))+'</strong><span>'+(x[12]==null?'庫存待補':'庫存 '+x[12])+'</span></div></article>').join('')+'</div>'+unlistedHtml}
 function result(a){let g=guides[a],recommended=getRecommendations(current,a);rt.textContent=(g?g.t:current)+'｜'+a;if(!g){rb.innerHTML='<p>請依商品標示操作並先局部測試。</p>';s3.className='step show';return}rb.innerHTML='<div class="guide-meta"><div class="guide-box warning"><h4>安全提醒</h4><p>'+g.s+'</p></div><div class="guide-box"><h4>三步驟處理</h4><ol>'+g.x.map(x=>'<li>'+x+'</li>').join('')+'</ol></div><div class="guide-box"><h4>必要商品</h4><p>'+g.n+'</p></div><div class="guide-box professional"><h4>何時應找專業</h4><p>'+g.p+'</p></div><div class="guide-box care"><h4>下次提醒</h4><p>'+g.c+'</p></div></div><h4 class="recommend-title">小北推薦商品</h4>'+productCards(recommended,g.n)+'<p class="source-note">玻璃水垢流程參考：<a href="https://www.cleanclean.tw/blog/posts/severe-glass-limescale-buildup" target="_blank" rel="noopener">淨淨｜玻璃嚴重水垢清潔說明</a>。</p>';s3.className='step show';s3.scrollIntoView({behavior:'smooth'})}
 
 /* 依首頁參考圖重建入口視覺。 */
@@ -29,7 +30,7 @@ const home=document.querySelector('.gatecard');if(home)home.innerHTML='<span cla
 /* 補齊原有入口的所有問題解方，避免任何選項只停留在通用提示。 */
 Object.assign(guides,{
  '鎖螺絲':{t:'居家修繕',s:'先確認螺絲規格與鎖入材質；牆面不明或需承重時，不要只靠一般螺絲。',x:['對準螺絲孔並選擇吻合尺寸的起子頭。','保持垂直、穩定施力鎖緊，不要過度鎖入。','確認固定穩固；若是承重物，改用適合的壁虎或錨栓。'],n:'十字／一字螺絲起子、螺絲、壁虎或錨栓、捲尺',p:'牆面龜裂、固定處鬆動、需承載重物或涉及電線管路時，請找專業人員。',c:'保留替換螺絲並定期檢查家具五金是否鬆動。',k:['居家修繕','家具組裝']},
- '黏貼固定':{t:'居家修繕',s:'先確認表面材質、承重與是否可移除；潮濕、粉化或油污表面會大幅降低黏著力。',x:['擦淨並完全乾燥黏貼面，先量好位置。','依產品標示剪裁或貼上，均勻按壓固定。','等待建議固化時間後再掛載物品，逐步增加重量。'],n:'雙面膠、無痕掛勾、黏著劑、清潔布、捲尺',p:'需承重、外牆、高處或會造成安全風險的固定，請改用五金固定或找專業。',c:'定期檢查黏貼件邊緣和承重狀態，潮濕區優先選防水型。',k:['居家修繕']},
+ '黏貼固定':{t:'居家修繕',s:'先確認表面材質、承重與是否可移除；租屋不能釘牆時，優先選合適的無痕掛勾或可移除黏貼用品。潮濕、粉化或油污表面會降低黏著力。',x:['用捲尺量好位置，清潔並完全擦乾黏貼面。','不能釘牆時選無痕掛勾；需要裁切時用美工刀並注意刀片方向，再依產品標示黏貼、均勻按壓。','等待建議黏著時間後再掛物，確認承重與拆除方式。'],n:'無痕掛勾、雙面膠、清潔布、美工刀、捲尺',p:'需承重、高處或有掉落風險時，先確認產品承重標示；不適合黏貼固定時請找專業。',c:'定期檢查黏貼件邊緣與承重狀態，潮濕區優先選防水型。',k:['居家修繕']},
  '水龍頭漏水':{t:'居家修繕',s:'先關閉止水閥；若漏水靠近插座、熱水器或牆內持續滲水，勿自行拆修。',x:['擦乾水龍頭並確認漏水點：出水口、把手或接頭。','關閉止水閥後檢查鬆動的接頭；可先更換適用墊片或止水帶。','重新開水測試，確認無滲漏後再收妥工具。'],n:'活動扳手、防水膠帶、替換墊片、抹布、水桶',p:'牆內滲水、水壓異常、鏽蝕嚴重或關閥後仍漏水時，請找水電。',c:'每月檢查接頭、水管與櫥櫃底部是否潮濕。',k:['居家修繕','漏水','排水']},
  '廚房油污':{t:'租屋清潔',s:'食物接觸面最後用清水擦淨；材質不明處先局部測試。',x:['清除油渣並待爐面冷卻。','噴敷去油劑、依標示靜置。','以海綿輕刷擦淨，食物接觸面再以清水擦拭。'],n:'廚房去油劑、中性清潔劑、海綿、抹布、手套',p:'抽油煙機滴油或電器內部積油時請找維修／清潔服務。',c:'每次重度烹調後擦拭爐台與牆面。',k:['廚房','去油','大掃除']},
  '地板':{t:'租屋清潔',s:'先辨識木地板、石材或磁磚；避免讓木地板積水，石材也不宜使用酸性清潔劑。',x:['先掃除或吸除沙塵，避免拖地時刮傷。','依材質使用適量中性清潔劑，以擰乾的拖把擦拭。','開窗通風或擦乾水痕，確認地面不濕滑。'],n:'中性地板清潔劑、拖把、掃把或吸塵器、抹布',p:'地板大面積起翹、滲水或霉味持續時，請找房東或專業人員。',c:'入口放置地墊並即時擦乾水漬。',k:['地板','大掃除','租屋清潔']},
@@ -50,9 +51,9 @@ const requiredProducts={
  '排水慢／異味':['毛髮濾網','通管器'],
  '馬桶堵塞':['馬桶吸把','馬桶清潔劑','清潔手套'],
  '入住／退租全屋清潔':['廚房去油劑','玻璃水垢清潔劑','浴室清潔劑','地板清潔劑','中性萬用清潔劑'],
- '颱風漏水／停電':['手電筒','乾電池','吸水布'],
+ '颱風漏水／停電':['手電筒','乾電池','吸水布','水桶','雨傘','雨衣','雨鞋','沙包','飲用水','泡麵','乾糧','罐頭'],
  '鎖螺絲':['十字螺絲起子','螺絲','捲尺'],
- '黏貼固定':['雙面膠','無痕掛勾','清潔布'],
+ '黏貼固定':['無痕掛勾','雙面膠','清潔布','美工刀','捲尺'],
  '水龍頭漏水':['活動扳手','防水膠帶','抹布'],
  '廚房油污':['廚房去油劑','中性萬用清潔劑','海綿刷','清潔手套'],
  '地板':['地板清潔劑','中性萬用清潔劑','拖把'],
@@ -61,5 +62,5 @@ const requiredProducts={
  '登革熱噴藥':['家用蚊蟲噴霧','防蚊液','捕蚊貼','養生膠帶']
 };
 Object.entries(requiredProducts).forEach(([key,items])=>{if(guides[key]){guides[key].i=items;guides[key].n=items.join('、')}});
-function getRecommendations(topic,answer){const guide=guides[answer];if(guide&&guide.i)return guide.i.map(term=>p.find(x=>x[0].includes(term))).filter(Boolean);const tags=(guide?guide.k:[])||[];const rank={必要:0,搭配:1,延伸:2};return p.filter(x=>tags.some(t=>x[5].includes(t)||x[6].includes(t))).sort((a,b)=>(rank[a[7]]??9)-(rank[b[7]]??9)).slice(0,8)}
+function getRecommendations(topic,answer){const guide=guides[answer];if(guide&&guide.i)return guide.i.map(term=>p.find(x=>productMatchesTerm(x,term))).filter(Boolean);const tags=(guide?guide.k:[])||[];const rank={必要:0,搭配:1,延伸:2};return p.filter(x=>tags.some(t=>x[5].includes(t)||x[6].includes(t))).sort((a,b)=>(rank[a[7]]??9)-(rank[b[7]]??9)).slice(0,8)}
 Object.assign(flow,{居家修繕:{q:'你需要處理哪種問題？',a:['鎖螺絲','黏貼固定','水龍頭漏水','馬桶堵塞']},租屋清潔:{q:'最需要清潔哪個區域？',a:['廚房油污','地板','入住／退租全屋清潔']},搬家與租屋:{q:'搬家時目前需要什麼協助？',a:['家具組裝','水龍頭漏水']},防災備品:{q:'目前最需要準備或處理什麼？',a:['颱風漏水／停電','登革熱噴藥']}});
