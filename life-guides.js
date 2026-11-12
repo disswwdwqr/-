@@ -58,7 +58,7 @@ const requiredProducts={
  '地板':['地板清潔劑','中性萬用清潔劑','拖把'],
  '全屋':['廚房去油劑','玻璃水垢清潔劑','浴室清潔劑','地板清潔劑','中性萬用清潔劑'],
  '家具組裝':['十字螺絲起子','活動扳手','捲尺'],
- '登革熱噴藥':['家用蚊蟲噴霧','防蚊液','捕蚊貼']
+ '登革熱噴藥':['家用蚊蟲噴霧','防蚊液','捕蚊貼','養生膠帶']
 };
 Object.entries(requiredProducts).forEach(([key,items])=>{if(guides[key]){guides[key].i=items;guides[key].n=items.join('、')}});
 function getRecommendations(topic,answer){const guide=guides[answer];if(guide&&guide.i)return guide.i.map(term=>p.find(x=>x[0].includes(term))).filter(Boolean);const tags=(guide?guide.k:[])||[];const rank={必要:0,搭配:1,延伸:2};return p.filter(x=>tags.some(t=>x[5].includes(t)||x[6].includes(t))).sort((a,b)=>(rank[a[7]]??9)-(rank[b[7]]??9)).slice(0,8)}
