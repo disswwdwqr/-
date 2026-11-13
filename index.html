@@ -15,10 +15,9 @@ const flow={浴室清潔:{q:'浴室主要想清潔什麼？',a:['水垢','皂垢
     const recommendations=[];
     (config.featured||[]).forEach(function(term){const item=items.find(function(candidate){return candidate[0].includes(term)||candidate[6].includes(term);});if(item&&!recommendations.includes(item))recommendations.push(item);});
     items.forEach(function(item){if(recommendations.length<8&&!recommendations.includes(item))recommendations.push(item);});
-    const productList=recommendations.slice(0,8).map(function(item){const productIndex=p.indexOf(item);return '<li class="rental-product-card"><button class="rental-product-card__title" type="button" data-product-index="'+productIndex+'">'+item[0]+'</button><div class="product-location"><div class="product-location__row"><span>走道</span><strong>'+item[1]+'區｜'+item[8]+'</strong></div><div class="product-location__row"><span>放置位置</span><strong>'+item[9]+'｜'+item[2]+'｜'+item[10]+'</strong></div></div><p class="rental-product-card__category">'+item[4]+'</p><div class="rental-product-card__footer"><strong class="rental-product-card__price">NT$'+item[11]+'</strong><span class="rental-product-card__stock">庫存 '+item[12]+'</span></div></li>';}).join('');
+    const productHtml=productCards(recommendations,config.i);
     rt.textContent='租屋｜'+answer;
-    rb.innerHTML='<div class="guide-meta"><div class="guide-box"><h4>準備步驟</h4><ol>'+config.r.map(function(step){return '<li>'+step+'</li>';}).join('')+'</ol></div><div class="guide-box"><h4>清單提醒</h4><p>'+config.i+'</p></div></div><h4>小北推薦清單</h4><ul class="recommend-products rental-product-cards">'+(productList||config.i.split('、').map(function(item){return '<li>'+item+'</li>';}).join(''))+'</ul>';
-    rb.querySelectorAll('.rental-product-card__title').forEach(function(button){button.addEventListener('click',function(){const item=p[Number(button.dataset.productIndex)];if(item){openView('map');prod(item[0]);}});});
+    rb.innerHTML='<div class="guide-meta"><div class="guide-box"><h4>準備步驟</h4><ol>'+config.r.map(function(step){return '<li>'+step+'</li>';}).join('')+'</ol></div><div class="guide-box"><h4>清單提醒</h4><p>'+config.i+'</p></div></div><h4>小北推薦清單</h4>'+productHtml;
     s3.className='step show';
     s3.scrollIntoView({behavior:'smooth'});
   };
@@ -167,18 +166,4 @@ const flow={浴室清潔:{q:'浴室主要想清潔什麼？',a:['水垢','皂垢
 })();
 </script>
 
-<style>
-.recommend-products.rental-product-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;list-style:none;margin:12px 0 0;padding:0}
-.recommend-products.rental-product-cards>.rental-product-card{display:flex;flex-direction:column;min-width:0;margin:0;padding:18px 16px;border:3px solid var(--ink);background:#fff;box-shadow:8px 8px var(--ink)}
-.rental-product-card__title{display:block;width:100%;min-height:50px;padding:0;border:0;background:transparent;color:var(--ink);text-align:left;font-size:clamp(17px,2vw,22px);font-weight:900;line-height:1.4}
-.rental-product-card__title:hover{color:var(--green);text-decoration:underline}
-.rental-product-card .product-location{margin:8px 0 14px;padding:9px 12px;border:4px solid var(--ink);border-radius:14px;background:var(--yellow);box-shadow:4px 4px var(--ink)}
-.rental-product-card .product-location__row{grid-template-columns:minmax(82px,34%) minmax(0,1fr);gap:8px;padding:6px 0}
-.rental-product-card .product-location__row span{font-size:14px}
-.rental-product-card .product-location__row strong{font-size:clamp(14px,1.6vw,18px)}
-.rental-product-card__category{margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid #ddd;color:#5c6967;font-size:16px;font-weight:900}
-.rental-product-card__footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:10px}
-.rental-product-card__price{color:#cf302d;font-size:clamp(24px,2.4vw,34px);font-weight:1000;line-height:1}
-.rental-product-card__stock{padding:6px 10px;background:#e8fbf1;color:var(--ink);font-size:16px;font-weight:900;white-space:nowrap}
-@media(max-width:650px){.recommend-products.rental-product-cards{grid-template-columns:1fr}.rental-product-card .product-location__row{grid-template-columns:82px minmax(0,1fr)}}
-</style></body></html>
+</body></html>
