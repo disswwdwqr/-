@@ -15,9 +15,10 @@ const flow={浴室清潔:{q:'浴室主要想清潔什麼？',a:['水垢','皂垢
     const recommendations=[];
     (config.featured||[]).forEach(function(term){const item=items.find(function(candidate){return candidate[0].includes(term)||candidate[6].includes(term);});if(item&&!recommendations.includes(item))recommendations.push(item);});
     items.forEach(function(item){if(recommendations.length<8&&!recommendations.includes(item))recommendations.push(item);});
-    const productList=recommendations.slice(0,8).map(function(item){return '<li><strong>'+item[0]+'</strong><div class="product-location"><div class="product-location__row"><span>走道</span><strong>'+item[1]+'區｜'+item[8]+'</strong></div><div class="product-location__row"><span>放置位置</span><strong>'+item[9]+'｜'+item[2]+'｜'+item[10]+'</strong></div><div class="product-location__row"><span>售價</span><strong>NT$'+item[11]+'</strong></div><div class="product-location__row"><span>庫存</span><strong>'+item[12]+' 件</strong></div></div></li>';}).join('');
+    const productList=recommendations.slice(0,8).map(function(item){const productIndex=p.indexOf(item);return '<li class="rental-product-card"><button class="rental-product-card__title" type="button" data-product-index="'+productIndex+'">'+item[0]+'</button><p class="rental-product-card__id">商品ID：'+item[3]+'</p><div class="product-location"><div class="product-location__row"><span>走道</span><strong>'+item[1]+'區｜'+item[8]+'</strong></div><div class="product-location__row"><span>放置位置</span><strong>'+item[9]+'｜'+item[2]+'｜'+item[10]+'</strong></div><div class="product-location__row"><span>售價</span><strong>NT$'+item[11]+'</strong></div><div class="product-location__row"><span>庫存</span><strong>'+item[12]+' 件</strong></div></div><span class="rental-product-card__hint">點選商品名稱查看商品地圖</span></li>';}).join('');
     rt.textContent='租屋｜'+answer;
-    rb.innerHTML='<div class="guide-meta"><div class="guide-box"><h4>準備步驟</h4><ol>'+config.r.map(function(step){return '<li>'+step+'</li>';}).join('')+'</ol></div><div class="guide-box"><h4>清單提醒</h4><p>'+config.i+'</p></div></div><h4>小北推薦清單</h4><ul class="recommend-products">'+(productList||config.i.split('、').map(function(item){return '<li>'+item+'</li>';}).join(''))+'</ul>';
+    rb.innerHTML='<div class="guide-meta"><div class="guide-box"><h4>準備步驟</h4><ol>'+config.r.map(function(step){return '<li>'+step+'</li>';}).join('')+'</ol></div><div class="guide-box"><h4>清單提醒</h4><p>'+config.i+'</p></div></div><h4>小北推薦清單</h4><ul class="recommend-products rental-product-cards">'+(productList||config.i.split('、').map(function(item){return '<li>'+item+'</li>';}).join(''))+'</ul>';
+    rb.querySelectorAll('.rental-product-card__title').forEach(function(button){button.addEventListener('click',function(){const item=p[Number(button.dataset.productIndex)];if(item){openView('map');prod(item[0]);}});});
     s3.className='step show';
     s3.scrollIntoView({behavior:'smooth'});
   };
@@ -166,4 +167,13 @@ const flow={浴室清潔:{q:'浴室主要想清潔什麼？',a:['水垢','皂垢
 })();
 </script>
 
-</body></html>
+<style>
+.recommend-products.rental-product-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;list-style:none;margin:12px 0 0;padding:0}
+.recommend-products.rental-product-cards>.rental-product-card{margin:0;padding:15px;border:2px solid var(--ink);background:#fff;box-shadow:4px 4px var(--ink)}
+.rental-product-card__title{display:block;width:100%;padding:0;border:0;background:transparent;color:var(--ink);text-align:left;font-size:17px;font-weight:900;line-height:1.45}
+.rental-product-card__title:hover{color:var(--green);text-decoration:underline}
+.rental-product-card__id{margin:6px 0;font-size:12px;color:#555}
+.rental-product-card .product-location{margin:8px 0}
+.rental-product-card__hint{font-size:12px;color:#555}
+@media(max-width:650px){.recommend-products.rental-product-cards{grid-template-columns:1fr}}
+</style></body></html>
